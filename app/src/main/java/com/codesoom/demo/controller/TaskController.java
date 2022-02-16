@@ -1,5 +1,6 @@
 package com.codesoom.demo.controller;
 
+import com.codesoom.demo.TaskNotFoundException;
 import com.codesoom.demo.modles.Task;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +28,9 @@ public class TaskController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Task> detail(@PathVariable Long id) {
-        Optional<Task> entity = tasks.stream()
-            .filter(task -> task.getId().equals(id))
-            .findFirst();
-        return ResponseEntity.of(entity);
+    public Task detail(@PathVariable Long id) {
+        Task task = findTask(id);
+        return task;
     }
 
     @PostMapping
@@ -43,35 +42,29 @@ public class TaskController {
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<Task> update(@PathVariable Long id,
-                                       @RequestBody Task source
+    public Task update(@PathVariable Long id,
+                       @RequestBody Task source
     ) {
-        Optional<Task> entity = tasks.stream()
-            .filter(task -> task.getId().equals(id))
-            .findFirst();
 
-        if (entity.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Task task = entity.get();
+        Task task = findTask(id);
         task.setTitle(source.getTitle());
 
-        return ResponseEntity.of(entity);
+        return task;
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Task> delete(@PathVariable Long id) {
-        Optional<Task> entity = tasks.stream()
-                .filter(task -> task.getId().equals(id))
-                .findFirst();
+        Task task = findTask(id);
+        tasks.remove(task);
 
-        if (entity.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        tasks.remove(entity.get());
         return ResponseEntity.noContent().build();
+    }
+
+    private Task findTask(Long id) {
+        return tasks.stream()
+                .filter(task -> task.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     private synchronized Long generteid() {
