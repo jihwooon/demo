@@ -148,5 +148,4 @@ public class DemoHttpHandler implements HttpHandler {
         newId += 1;
         return newId;
     }
-
 }

@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class App {
 
-
     public String getGreeting() {
         BigInteger prime = BigInteger.valueOf(Integer.MAX_VALUE);
         String integer = String.valueOf(10);
