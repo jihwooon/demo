@@ -4,19 +4,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.codesoom.demo.TaskNotFoundException;
-import com.codesoom.demo.modles.Task;
+import com.codesoom.demo.domain.Task;
+import com.codesoom.demo.domain.TaskRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class TaskServiceTest {
     private TaskService taskService;
-    private final String TASK_TITLE = "test";
-    private final String UPDATE_POSTFIX = "!!!";
+    private static final String TASK_TITLE = "test";
+    private static final String UPDATE_POSTFIX = "!!!";
+
 
     @BeforeEach
     void setUp() {
-        // subject
-        taskService = new TaskService();
+        TaskRepository taskRepository = new TaskRepository();
+        taskService = new TaskService(taskRepository);
 
         // fixtures
         Task task = new Task();

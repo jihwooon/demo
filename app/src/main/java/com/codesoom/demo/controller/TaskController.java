@@ -1,9 +1,8 @@
 package com.codesoom.demo.controller;
 
 import com.codesoom.demo.application.TaskService;
-import com.codesoom.demo.modles.Task;
+import com.codesoom.demo.domain.Task;
 import java.util.List;
-import javax.servlet.annotation.HttpConstraint;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,7 +23,6 @@ public class TaskController {
 
     private TaskService taskService;
 
-    //의존 관계를
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }

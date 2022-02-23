@@ -2,10 +2,9 @@ package com.codesoom.demo.controller;
 
 import com.codesoom.demo.TaskNotFoundException;
 import com.codesoom.demo.application.TaskService;
-import com.codesoom.demo.modles.Task;
+import com.codesoom.demo.domain.Task;
 import java.util.ArrayList;
 import java.util.List;
-import net.bytebuddy.build.ToStringPlugin.Enhance;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +17,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //spring 의존해서 테스트
@@ -32,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class TaskControllerWebTest {
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -51,7 +49,7 @@ class TaskControllerWebTest {
         given(taskService.getTask(100L))
             .willThrow(new TaskNotFoundException(100L));
 
-        given(taskService.updateTask(eq(100L),any(Task.class)))
+        given(taskService.updateTask(eq(100L), any(Task.class)))
             .willThrow(new TaskNotFoundException(100L));
 
         given(taskService.deleteTask(100L))
@@ -62,7 +60,7 @@ class TaskControllerWebTest {
     void list() throws Exception {
         mockMvc.perform(get("/tasks"))
             .andExpect(status().isOk());
-            //.andExpect(content().string(containsString("Test Task")));
+        //.andExpect(content().string(containsString("Test Task")));
 
         verify(taskService).getTasks();
     }
@@ -71,7 +69,7 @@ class TaskControllerWebTest {
     void detailWithvalidId() throws Exception {
         mockMvc.perform(get("/tasks/1"))
             .andExpect(status().isOk());
-            //.andExpect(content().string(containsString("Test Task")));
+        //.andExpect(content().string(containsString("Test Task")));
     }
 
     @Test
@@ -96,9 +94,9 @@ class TaskControllerWebTest {
         mockMvc.perform(patch("/tasks/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"title\":\"Renamed Task\"}")
-        )
+            )
             .andExpect(status().isOk());
-        verify(taskService).updateTask(eq(1L),any(Task.class));
+        verify(taskService).updateTask(eq(1L), any(Task.class));
     }
 
     @Test
