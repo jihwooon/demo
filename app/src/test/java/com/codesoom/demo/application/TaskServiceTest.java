@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.codesoom.demo.TaskNotFoundException;
 import com.codesoom.demo.domain.Task;
 import com.codesoom.demo.domain.TaskRepository;
+import com.codesoom.demo.infra.InMemoryTaskRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,7 @@ class TaskServiceTest {
 
     @BeforeEach
     void setUp() {
-        TaskRepository taskRepository = new TaskRepository();
+        TaskRepository taskRepository = new InMemoryTaskRepository();
         taskService = new TaskService(taskRepository);
 
         // fixtures
@@ -37,7 +38,6 @@ class TaskServiceTest {
     void getTaskWithValidId() {
         Task task = taskService.getTask(1L);
         assertThat(task.getTitle()).isEqualTo(TASK_TITLE);
-
     }
 
     @Test
