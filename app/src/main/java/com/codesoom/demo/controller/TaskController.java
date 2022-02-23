@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class TaskController {
 
-    private TaskService taskService;
+    private final TaskService taskService;
 
     public TaskController(TaskService taskService) {
         this.taskService = taskService;

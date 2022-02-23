@@ -3,44 +3,18 @@ package com.codesoom.demo.domain;
 import com.codesoom.demo.TaskNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public class TaskRepository {
+public interface TaskRepository {
 
-    private List<Task> tasks = new ArrayList<>();
-    private Long newId = 0L;
+    List<Task> findAll();
 
-    public List<Task> findAll() {
-        return tasks;
-    }
+    Optional<Task> findById(Long id);
 
-    public Task find(Long id) {
-        return findTask(id);
-    }
+    Task save(Task source);
 
-    public Task save(Task source) {
-        Task task = new Task();
-        task.setId(generteId());
-        task.setTitle(source.getTitle());
-        tasks.add(task);
-        return task;
-    }
+    void delete(Task task);
 
-    public Task remove(Task task) {
-        tasks.remove(task);
-        return task;
-    }
-
-    private synchronized Long generteId() {
-        newId += 1;
-        return newId;
-    }
-
-    private Task findTask(Long id) {
-        return tasks.stream()
-            .filter(task -> task.getId().equals(id))
-            .findFirst()
-            .orElseThrow(() -> new TaskNotFoundException(id));
-    }
 }
