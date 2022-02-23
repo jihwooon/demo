@@ -8,7 +8,6 @@ package com.codesoom.demo.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -18,13 +17,14 @@ import static org.mockito.Mockito.verify;
 
 import com.codesoom.demo.TaskNotFoundException;
 import com.codesoom.demo.application.TaskService;
-import com.codesoom.demo.modles.Task;
+import com.codesoom.demo.domain.Task;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class TaskControllerTest {
+
     //1. Real objecty
     //2. Moc object => 타입에 필요함
     //3. Spy Proxy => 진짜 오브젝트가 필요함
@@ -95,7 +95,7 @@ class TaskControllerTest {
         Task task = new Task();
         task.setTitle("Rename task");
 
-        controller.update(1L,task);
+        controller.update(1L, task);
 
         verify(taskService).updateTask(1L, task);
     }
@@ -105,7 +105,8 @@ class TaskControllerTest {
         Task task = new Task();
         task.setTitle("Rename task");
 
-        assertThatThrownBy(() -> controller.update(100L, task)).isInstanceOf(TaskNotFoundException.class);
+        assertThatThrownBy(() -> controller.update(100L, task)).isInstanceOf(
+            TaskNotFoundException.class);
     }
 
     @Test
