@@ -8,7 +8,7 @@ import javax.persistence.Id;
 public class Task {
 
     @Id
-//    @GeneratedValue()
+    @GeneratedValue
     private Long id;
     private String title;
 

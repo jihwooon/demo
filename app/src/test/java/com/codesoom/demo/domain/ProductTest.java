@@ -8,9 +8,11 @@ class ProductTest {
 
     @Test
     void creation() {
-        Product product = new Product();
+        Product product = new Product(1L,"안녕",5000 , "www");
 
-        assertThat(product.getName()).isNull();
+        assertThat(product.getName()).isEqualTo("안녕");
+        assertThat(product.getId()).isEqualTo(1L);
+        assertThat(product.getPrice()).isEqualTo(5000);
+        assertThat(product.getUrl()).isEqualTo("www");
     }
-
 }
