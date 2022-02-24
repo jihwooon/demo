@@ -5,9 +5,11 @@ import com.codesoom.demo.domain.Task;
 import com.codesoom.demo.domain.TaskRepository;
 import java.util.ArrayList;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class TaskService {
 
     private final TaskRepository taskRepository;
