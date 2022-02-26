@@ -10,14 +10,13 @@ import static org.mockito.Mockito.verify;
 import com.codesoom.demo.TaskNotFoundException;
 import com.codesoom.demo.domain.Task;
 import com.codesoom.demo.domain.TaskRepository;
-import com.codesoom.demo.infra.InMemoryTaskRepository;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
 
 class TaskServiceTest {
     private static final String TASK_TITLE = "test";
@@ -87,7 +86,7 @@ class TaskServiceTest {
     @Test
     void getTaskWithInValidId() {
         assertThatThrownBy(() -> taskService.getTask(100L))
-            .isInstanceOf(TaskNotFoundException.class);
+                .isInstanceOf(TaskNotFoundException.class);
 
         verify(taskRepository).findById(100L);
     }
@@ -125,7 +124,7 @@ class TaskServiceTest {
         source.setTitle(TASK_TITLE + UPDATE_POSTFIX);
 
         assertThatThrownBy(() -> taskService.updateTask(100L, source))
-            .isInstanceOf(TaskNotFoundException.class);
+                .isInstanceOf(TaskNotFoundException.class);
 
         verify(taskRepository).findById(100L);
     }
@@ -142,7 +141,7 @@ class TaskServiceTest {
     @Test
     void deleteTaskWithNotExsitedID() {
         assertThatThrownBy(() -> taskService.deleteTask(100L))
-            .isInstanceOf(TaskNotFoundException.class);
+                .isInstanceOf(TaskNotFoundException.class);
 
         verify(taskRepository).findById(100L);
     }

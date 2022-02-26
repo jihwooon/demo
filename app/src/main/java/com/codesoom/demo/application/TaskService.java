@@ -6,6 +6,8 @@ import com.codesoom.demo.domain.TaskRepository;
 import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
