@@ -18,8 +18,10 @@ import static org.mockito.Mockito.verify;
 import com.codesoom.demo.TaskNotFoundException;
 import com.codesoom.demo.application.TaskService;
 import com.codesoom.demo.domain.Task;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,11 +46,11 @@ class TaskControllerTest {
         given(taskService.getTasks()).willReturn(tasks);
         given(taskService.getTask(1L)).willReturn(task);
         given(taskService.getTask(100L))
-            .willThrow(new TaskNotFoundException(100L));
+                .willThrow(new TaskNotFoundException(100L));
         given(taskService.updateTask(eq(100L), any(Task.class)))
-            .willThrow(new TaskNotFoundException(100L));
+                .willThrow(new TaskNotFoundException(100L));
         given(taskService.deleteTask(100L))
-            .willThrow(new TaskNotFoundException(100L));
+                .willThrow(new TaskNotFoundException(100L));
 
 
     }
@@ -106,7 +108,7 @@ class TaskControllerTest {
         task.setTitle("Rename task");
 
         assertThatThrownBy(() -> controller.update(100L, task)).isInstanceOf(
-            TaskNotFoundException.class);
+                TaskNotFoundException.class);
     }
 
     @Test

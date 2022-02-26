@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 class HelloControllerTest {
 
     @Test
-    void sayHello (){
+    void sayHello() {
         HelloController helloController = new HelloController();
         String result = helloController.sayHello();
         assertThat(result).isEqualTo("Hello, world");
