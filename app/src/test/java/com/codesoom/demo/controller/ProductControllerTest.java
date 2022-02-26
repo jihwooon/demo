@@ -19,6 +19,7 @@ import com.codesoom.demo.domain.Product;
 
 import java.util.List;
 
+import com.codesoom.demo.dto.ProductData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -44,7 +45,12 @@ class ProductControllerTest {
 
     @BeforeEach
     void setUp() {
-        Product product = new Product(1L, "쥐돌이", "냥이월드", 5000);
+        Product product = Product.builder()
+                .id(1L)
+                .name("쥐돌이")
+                .maker("냥이월드")
+                .price(5000)
+                .build();
 //      Product updated = new Product(1L,"쥐순이","순이월드", 1000);
 
         given(productService.getProducts()).willReturn(List.of(product));
@@ -54,24 +60,24 @@ class ProductControllerTest {
         given(productService.getProduct(1000L))
                 .willThrow(new ProductNotFoundException(1000L));
 
-        given(productService.createProduct(any(Product.class)))
+        given(productService.createProduct(any(ProductData.class)))
                 .willReturn(product);
 
 //      given(productService.updateProduct(eq(1L),any(Product.class))).willReturn(updated);
 
-        given(productService.updateProduct(eq(1L), any(Product.class)))
+        given(productService.updateProduct(eq(1L), any(ProductData.class)))
                 .will(invocation -> {
                     Long id = invocation.getArgument(0);
-                    Product source = invocation.getArgument(1);
-                    return new Product(
-                            id,
-                            source.getName(),
-                            source.getMaker(),
-                            source.getPrice()
-                    );
+                    ProductData productData = invocation.getArgument(1);
+                    return Product.builder()
+                            .id(1L)
+                            .name(productData.getName())
+                            .maker(productData.getMaker())
+                            .price(productData.getPrice())
+                            .build();
                 });
 
-        given(productService.updateProduct(eq(1000L), any(Product.class)))
+        given(productService.updateProduct(eq(1000L), any(ProductData.class)))
                 .willThrow(new ProductNotFoundException(1000L));
 
         given(productService.deleteProduct(1L)).willReturn(product);
@@ -79,7 +85,7 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("status 200을 리턴합니다.")
+    @DisplayName("list 메서드는 status 200을 리턴합니다.")
     void list() throws Exception {
         mockMvc.perform(get("/products")
                         .accept(MediaType.APPLICATION_JSON_UTF8))
@@ -121,8 +127,19 @@ class ProductControllerTest {
                         .content(" {\"name\":\"쥐돌이\", \"maker\":\"냥이월드\",\"price\":5000}"))
                 .andExpect(status().isCreated());
 
-        verify(productService).createProduct(any(Product.class));
+        verify(productService).createProduct(any(ProductData.class));
     }
+
+
+    @Test
+    @DisplayName("craete 메서드는 상태 코드 400을 응답한다.")
+    void createWithInvalidAttributes() throws Exception {
+        mockMvc.perform(post("/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(" {\"name\":\"\", \"maker\":\"\",\"price\":0}"))
+                .andExpect(status().isBadRequest());
+    }
+
 
     @Test
     @DisplayName("update 메서드는 상태 코드 200을 응답한다.")
@@ -132,7 +149,7 @@ class ProductControllerTest {
                         .content(" {\"name\":\"쥐순이\", \"maker\":\"순이월드\",\"price\":1000}"))
                 .andExpect(status().isOk());
 
-        verify(productService).updateProduct(eq(1L), any(Product.class));
+        verify(productService).updateProduct(eq(1L), any(ProductData.class));
     }
 
     @Test
@@ -140,11 +157,8 @@ class ProductControllerTest {
     void updateWithNotExsitedProduct() throws Exception {
         mockMvc.perform(patch("/products/1000")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(" {\"name\":\"쥐순이\", \"maker\":\"순이월드\",\"price\":1000}"))
-                .andExpect(status().isNotFound());
-
-        verify(productService).updateProduct(eq(1000L), any(Product.class));
-
+                        .content(" {\"name\":\"\", \"maker\":\"\",\"price\":1000}"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

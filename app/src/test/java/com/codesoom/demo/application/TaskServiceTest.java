@@ -16,8 +16,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("TaskService 클래스")
 class TaskServiceTest {
     private static final String TASK_TITLE = "test";
     private static final String UPDATE_POSTFIX = "!!!";

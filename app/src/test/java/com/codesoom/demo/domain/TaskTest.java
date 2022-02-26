@@ -2,8 +2,10 @@ package com.codesoom.demo.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("Task 클래스")
 class TaskTest {
 
     @Test
