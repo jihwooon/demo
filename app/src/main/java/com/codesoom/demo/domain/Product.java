@@ -1,91 +1,41 @@
 package com.codesoom.demo.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Product {
 
     @Id
     @GeneratedValue
     private Long id;
+
+    @NotBlank
     private String name;
+
+    @NotBlank
     private String maker;
+
+    @NotNull
     private Integer price;
-    private String url;
 
-    public Product() {}
+    private String imageUrl;
 
-    public Product(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Product(String name, String maker, Integer price) {
+    public void change(String name, String maker, Integer price) {
         this.name = name;
         this.maker = maker;
         this.price = price;
-    }
-
-    public Product(Long id, String name, String maker, Integer price, String url) {
-        this.id = id;
-        this.name = name;
-        this.maker = maker;
-        this.price = price;
-        this.url = url;
-    }
-
-    public Product(Long id, String name, String maker, Integer price) {
-        this.id = id;
-        this.name = name;
-        this.maker = maker;
-        this.price = price;
-    }
-
-    public Product(Long id, String name, Integer price, String url) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.url = url;
-    }
-
-    public Product(Long id, String name, Integer price) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-    }
-
-    public Product(String name, Integer price, String url) {
-        this.name = name;
-        this.price = price;
-        this.url = url;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public String getMaker() {
-        return maker;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void change(Product source) {
-        this.name = source.getName();
-        this.maker = source.getMaker();
-        this.price = source.getPrice();
     }
 }

@@ -9,21 +9,21 @@ package com.codesoom.demo.application;
 import com.codesoom.demo.ProductNotFoundException;
 import com.codesoom.demo.domain.Product;
 import com.codesoom.demo.domain.ProductRepository;
+import com.codesoom.demo.dto.ProductData;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+@DisplayName("ProductService 클래스")
 class ProductServiceTest {
 
     // 호출 순 (우선 순위)
@@ -35,7 +35,12 @@ class ProductServiceTest {
     void setUp() {
         productService = new ProductService(productRepository);
 
-        Product product = new Product(1L, "쥐돌이", "냥이월드", 50000);
+        Product product = Product.builder()
+                .id(1L)
+                .name("쥐돌이")
+                .maker("냥이월드")
+                .price(5000)
+                .build();
 
         //ArrayList<T> = new ArrayList(); -> List.of();
         given(productRepository.findAll()).willReturn(List.of(product));
@@ -47,12 +52,12 @@ class ProductServiceTest {
 
         given(productRepository.save(any(Product.class))).will(invocation -> {
             Product source = invocation.getArgument(0);
-            return new Product(
-                    2L,
-                    source.getName(),
-                    source.getMaker(),
-                    source.getPrice()
-            );
+            return Product.builder()
+                    .id(2L)
+                    .name(source.getName())
+                    .maker(source.getMaker())
+                    .price(source.getPrice())
+                    .build();
         });
     }
 
@@ -96,9 +101,13 @@ class ProductServiceTest {
 
     @Test
     void createProduct() {
-        Product source = new Product("쥐돌이", "냥이월드", 5000);
+        ProductData productData = ProductData.builder()
+                .name("쥐돌이")
+                .maker("냥이월드")
+                .price(5000)
+                .build();
 
-        Product product = productService.createProduct(source);
+        Product product = productService.createProduct(productData);
 
         verify(productRepository).save(any(Product.class));
 
@@ -109,9 +118,13 @@ class ProductServiceTest {
 
     @Test
     void updateWithExistedProduct() {
-        Product source = new Product("쥐순이", "순이월드", 5000);
+        ProductData productData = ProductData.builder()
+                .name("쥐순이")
+                .maker("순이월드")
+                .price(5000)
+                .build();
 
-        Product product = productService.updateProduct(1L, source);
+        Product product = productService.updateProduct(1L, productData);
 
         assertThat(product.getId()).isEqualTo(1L);
         assertThat(product.getName()).isEqualTo("쥐순이");
@@ -120,9 +133,13 @@ class ProductServiceTest {
 
     @Test
     void updateWithNotExistedProduct() {
-        Product source = new Product("쥐순이", "순이월드", 5000);
+        ProductData productData = ProductData.builder()
+                .name("쥐순이")
+                .maker("순이월드")
+                .price(5000)
+                .build();
 
-        assertThatThrownBy(() -> productService.updateProduct(1000L, source))
+        assertThatThrownBy(() -> productService.updateProduct(1000L, productData))
                 .isInstanceOf(ProductNotFoundException.class);
     }
 
