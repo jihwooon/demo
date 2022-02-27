@@ -8,8 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserController.class)
@@ -38,6 +37,13 @@ class UserControllerTest {
     @DisplayName("update 메서드 상태코드 200를 응답한다.")
     void update() throws Exception {
         mockMvc.perform(patch("/user/1"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("delete 메서드 상태코드 200을 응답한다.")
+    void detroy() throws Exception {
+        mockMvc.perform(delete("/user/1"))
                 .andExpect(status().isOk());
     }
 }

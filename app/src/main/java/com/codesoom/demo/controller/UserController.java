@@ -19,4 +19,9 @@ public class UserController {
         return null;
     }
 
+    @DeleteMapping("{id}")
+    public void delete() {
+
+    }
+
 }
