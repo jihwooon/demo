@@ -3,12 +3,10 @@ package com.codesoom.demo.application;
 import com.codesoom.demo.TaskNotFoundException;
 import com.codesoom.demo.domain.Task;
 import com.codesoom.demo.domain.TaskRepository;
-import java.util.ArrayList;
-import java.util.List;
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -26,7 +24,7 @@ public class TaskService {
 
     public Task getTask(Long id) {
         return taskRepository.findById(id)
-            .orElseThrow(()-> new TaskNotFoundException(id));
+                .orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     public Task createTask(Task source) {
@@ -35,7 +33,7 @@ public class TaskService {
 
     public Task updateTask(Long id, Task source) {
         Task task = taskRepository.findById(id)
-            .orElseThrow(()-> new TaskNotFoundException(id));
+                .orElseThrow(() -> new TaskNotFoundException(id));
         task.setTitle(source.getTitle());
 
         return task;
@@ -43,11 +41,10 @@ public class TaskService {
 
     public Task deleteTask(Long id) {
         Task task = taskRepository.findById(id)
-            .orElseThrow(()-> new TaskNotFoundException(id));
+                .orElseThrow(() -> new TaskNotFoundException(id));
         taskRepository.delete(task);
 
         return task;
     }
-
 
 }

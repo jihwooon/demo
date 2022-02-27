@@ -17,7 +17,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {
-
     @Id
     @GeneratedValue
     private Long id;
@@ -33,9 +32,9 @@ public class Product {
 
     private String imageUrl;
 
-    public void change(String name, String maker, Integer price) {
-        this.name = name;
-        this.maker = maker;
-        this.price = price;
+    public void changeWith(Product source) {
+        this.name = source.getName();
+        this.maker = source.getMaker();
+        this.price = source.getPrice();
     }
 }
