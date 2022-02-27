@@ -11,7 +11,12 @@ class UserTest {
     @Test
     void creation() {
 
-        User user = new User();
+        User user = User.builder()
+                .id(1L)
+                .email("jihwooon@gmail.com")
+                .name("쥐돌이")
+                .password("1234")
+                .build();
 
         assertThat(user.getId()).isEqualTo(1L);
         assertThat(user.getEmail()).isEqualTo("jihwooon@gmail.com");
