@@ -1,5 +1,6 @@
 package com.codesoom.demo.controller;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -20,14 +22,22 @@ class UserControllerTest {
     @Autowired
     private UserController userController;
 
+    @BeforeEach
+    void setUp() {
+
+     }
 
     @Test
     @DisplayName("create 메서드는 상태코드 201를 응답한다.")
     void create() throws Exception {
         mockMvc.perform(post("/user"))
                 .andExpect(status().isCreated());
-
     }
 
-
+    @Test
+    @DisplayName("update 메서드 상태코드 200를 응답한다.")
+    void update() throws Exception {
+        mockMvc.perform(patch("/user/1"))
+                .andExpect(status().isOk());
+    }
 }
