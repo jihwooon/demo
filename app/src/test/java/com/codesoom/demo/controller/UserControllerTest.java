@@ -1,10 +1,12 @@
 package com.codesoom.demo.controller;
 
+import com.codesoom.demo.application.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,8 +23,12 @@ class UserControllerTest {
     @Autowired
     private UserController userController;
 
+    @MockBean
+    private UserService userService;
+
     @BeforeEach
     void setUp() {
+
 
      }
 
