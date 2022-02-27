@@ -3,20 +3,23 @@ package com.codesoom.demo.application;
 import com.codesoom.demo.ProductNotFoundException;
 import com.codesoom.demo.domain.Product;
 import com.codesoom.demo.domain.ProductRepository;
-import java.util.List;
-
 import com.codesoom.demo.dto.ProductData;
+import com.github.dozermapper.core.DozerBeanMapperBuilder;
+import com.github.dozermapper.core.Mapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
 public class ProductService {
+    private final Mapper mapper;
+    private final ProductRepository productRepository;
 
-    private ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(Mapper dozerMapper, ProductRepository productRepository) {
+        this.mapper = dozerMapper;
         this.productRepository = productRepository;
     }
 
@@ -29,22 +32,20 @@ public class ProductService {
     }
 
     public Product createProduct(ProductData productData) {
-        Product product = Product.builder()
-                .name(productData.getName())
-                .maker(productData.getMaker())
-                .price(productData.getPrice())
-                .build();
+        Mapper mapper = DozerBeanMapperBuilder.buildDefault();
+        Product product = mapper.map(productData, Product.class);
+//        Product product = Product.builder()
+//                .name(productData.getName())
+//                .maker(productData.getMaker())
+//                .price(productData.getPrice())
+//                .build();
+
         return productRepository.save(product);
     }
 
     public Product updateProduct(Long id, ProductData productData) {
         Product product = findProduct(id);
-        product.change(
-                productData.getName(),
-                productData.getMaker(),
-                productData.getPrice()
-        );
-
+        product.changeWith(mapper.map(productData, Product.class));
         return product;
     }
 
@@ -58,4 +59,5 @@ public class ProductService {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
     }
+
 }

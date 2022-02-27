@@ -10,6 +10,8 @@ import com.codesoom.demo.ProductNotFoundException;
 import com.codesoom.demo.domain.Product;
 import com.codesoom.demo.domain.ProductRepository;
 import com.codesoom.demo.dto.ProductData;
+import com.github.dozermapper.core.DozerBeanMapperBuilder;
+import com.github.dozermapper.core.Mapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +19,8 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -30,10 +33,12 @@ class ProductServiceTest {
     // 지역변수 <- 전역 변수 <- static
     private ProductRepository productRepository = mock(ProductRepository.class);
     private ProductService productService;
+    private Mapper mapper;
 
     @BeforeEach
     void setUp() {
-        productService = new ProductService(productRepository);
+        Mapper mapper = DozerBeanMapperBuilder.buildDefault();
+        productService = new ProductService(mapper, productRepository);
 
         Product product = Product.builder()
                 .id(1L)

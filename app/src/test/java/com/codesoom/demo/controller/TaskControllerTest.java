@@ -6,25 +6,23 @@
 //5. Delete - DELETE /tasks/{id}
 package com.codesoom.demo.controller;
 
+import com.codesoom.demo.TaskNotFoundException;
+import com.codesoom.demo.application.TaskService;
+import com.codesoom.demo.domain.Task;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-
-import com.codesoom.demo.TaskNotFoundException;
-import com.codesoom.demo.application.TaskService;
-import com.codesoom.demo.domain.Task;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 
 @DisplayName("TaskController 클래스")
 class TaskControllerTest {
@@ -53,7 +51,6 @@ class TaskControllerTest {
                 .willThrow(new TaskNotFoundException(100L));
         given(taskService.deleteTask(100L))
                 .willThrow(new TaskNotFoundException(100L));
-
 
     }
 

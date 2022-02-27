@@ -1,9 +1,9 @@
 package com.codesoom.demo.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Product 클래스")
 class ProductTest {
@@ -38,7 +38,11 @@ class ProductTest {
                 .price(5000)
                 .build();
 
-        product.change("쥐순이","순이월드", 5000);
+        product.changeWith(Product.builder()
+                .name("쥐순이")
+                .maker("순이월드")
+                .price(5000)
+                .build());
 
         assertThat(product.getName()).isEqualTo("쥐순이");
         assertThat(product.getMaker()).isEqualTo("순이월드");

@@ -1,23 +1,22 @@
 package com.codesoom.demo.application;
 
+import com.codesoom.demo.TaskNotFoundException;
+import com.codesoom.demo.domain.Task;
+import com.codesoom.demo.domain.TaskRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-
-import com.codesoom.demo.TaskNotFoundException;
-import com.codesoom.demo.domain.Task;
-import com.codesoom.demo.domain.TaskRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 
 @DisplayName("TaskService 클래스")
 class TaskServiceTest {
@@ -62,7 +61,6 @@ class TaskServiceTest {
             return task;
         });
     }
-
 
     @Test
     void getTasks() {

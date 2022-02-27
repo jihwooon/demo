@@ -1,34 +1,28 @@
 package com.codesoom.demo.controller;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-
 import com.codesoom.demo.ProductNotFoundException;
 import com.codesoom.demo.application.ProductService;
 import com.codesoom.demo.domain.Product;
-
-import java.util.List;
-
 import com.codesoom.demo.dto.ProductData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProductController.class)
 @DisplayName("ProductController 클래스")
@@ -96,7 +90,7 @@ class ProductControllerTest {
     }
 
     @DisplayName("상태 코드 200을")
-    class Context_with_detail{
+    class Context_with_detail {
         @Test
         @DisplayName("반환합니다.")
         void detailWithExsitedProduct() throws Exception {
@@ -110,7 +104,7 @@ class ProductControllerTest {
     }
 
     @DisplayName("상태 코드 404을")
-    class Context_with_Not_Exsited_Product{
+    class Context_with_Not_Exsited_Product {
         @Test
         @DisplayName("반환합니다.")
         void deatilWithNotExsitedProduct() throws Exception {
@@ -172,8 +166,7 @@ class ProductControllerTest {
 
     @Test
     @DisplayName("delete 메서드는 상태 코드 404을 반환합니다.")
-    void detroyWithInvaildProduct() throws Exception
-    {
+    void detroyWithInvaildProduct() throws Exception {
         mockMvc.perform(delete("/products/1000"))
                 .andExpect(status().isNotFound());
 
