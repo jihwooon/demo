@@ -11,6 +11,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,15 +38,19 @@ class UserControllerTest {
                 .name("쥐돌이")
                 .password("1234")
                 .build();
+
+        given(userService.createUser(any(User.class))).willReturn(user);
      }
 
     @Test
     @DisplayName("create 메서드는 상태코드 201를 응답한다.")
     void create() throws Exception {
         mockMvc.perform(post("/user")
-                        .accept(MediaType.APPLICATION_JSON_UTF8)
+                        .accept(MediaType.APPLICATION_JSON)
                         .content("{\"email\":\"jihwooon@gmail.com\", \"name\":\"쥐돌이\", \"password\":\"1234\"}"))
                 .andExpect(status().isCreated());
+
+        verify(userService).createUser(any(User.class));
     }
 
     @Test
@@ -51,6 +58,7 @@ class UserControllerTest {
     void update() throws Exception {
         mockMvc.perform(patch("/user/1"))
                 .andExpect(status().isOk());
+
     }
 
     @Test

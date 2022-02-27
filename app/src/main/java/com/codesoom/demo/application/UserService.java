@@ -1,13 +1,20 @@
 package com.codesoom.demo.application;
 
 import com.codesoom.demo.domain.User;
+import com.codesoom.demo.domain.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
-    public User createUser() {
-        return null;
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public User createUser(User user) {
+        return userRepository.save(user);
     }
 
     public User updateUser() {
@@ -17,4 +24,5 @@ public class UserService {
     public void deleteUser() {
 
     }
+
 }
