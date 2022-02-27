@@ -17,8 +17,8 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public User create() {
-        return userService.createUser();
+    public User create(User user) {
+        return userService.createUser(user);
     }
 
     @PatchMapping("{id}")
