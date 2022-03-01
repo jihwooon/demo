@@ -8,6 +8,7 @@ import com.codesoom.demo.application.UserService;
 import com.codesoom.demo.domain.User;
 import com.codesoom.demo.dto.UserRegistrationData;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -24,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserController.class)
+@DisplayName("UserController 클래스")
 class UserControllerTest {
 
     @Autowired
@@ -51,6 +53,7 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("create 메서드는 isCreated을 응답한다.")
     void registerUserWithValidAttributes() throws Exception {
         mockMvc.perform(
                 post("/users")
@@ -69,6 +72,7 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("create 메서드는 isBadRequest을 응답한다.")
     void registerUserWithInvalidAttributes() throws Exception {
         mockMvc.perform(
                     post("/users")
