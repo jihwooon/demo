@@ -1,5 +1,6 @@
 package com.codesoom.demo.application;
 
+import com.codesoom.demo.UserEmailDuplicationException;
 import com.codesoom.demo.domain.User;
 import com.codesoom.demo.domain.UserRepository;
 import com.codesoom.demo.dto.UserRegistrationData;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -61,6 +63,9 @@ class UserServiceTest {
                 .name("tester")
                 .password("test")
                 .build();
+
+        assertThatThrownBy(() -> userService.registerUser(registrationData))
+                .isInstanceOf(UserEmailDuplicationException.class);
 
         userService.registerUser(registrationData);
 
