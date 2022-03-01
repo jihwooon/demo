@@ -7,7 +7,6 @@ package com.codesoom.demo.controller;
 import com.codesoom.demo.application.UserService;
 import com.codesoom.demo.domain.User;
 import com.codesoom.demo.dto.UserRegistrationData;
-import com.codesoom.demo.dto.UserResultData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,29 +36,34 @@ class UserControllerTest {
     private UserController userController;
 
     @BeforeEach
-    void serUp() {
+    void setUp() {
 
         given(userService.registerUser(any(UserRegistrationData.class))).will(
                 invocation -> {
                 UserRegistrationData registrationData = invocation.getArgument(0);
                 return User.builder()
+                            .id(13L)
                             .email(registrationData.getEmail())
+                            .name(registrationData.getName())
+                            .password(registrationData.getPassword())
                             .build();
-                }
-        );
+                });
     }
 
     @Test
-    void registCreate() throws Exception {
+    void registerUserWithValidAttributes() throws Exception {
         mockMvc.perform(
                 post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\":\"쥐돌이\", \"email\":\"test@example.com\", \"password\":\"1234\"}")
+                        .content("{\"name\":\"쥐돌이\", \"email\":\"test@example.com\", \"password\":\"test\"}")
             )
                 .andExpect(status().isCreated())
                 .andExpect(content().string(
+                        containsString("\"id\":13")
+                ))
+                .andExpect(content().string(
                         containsString("\"email\":\"test@example.com\"")
-            ));
+                ));
 
         verify(userService).registerUser(any(UserRegistrationData.class));
     }
