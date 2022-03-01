@@ -26,4 +26,12 @@ public class User {
 
     private String password;
 
+
+    public void changeWith(User member) {
+        this.email = member.getEmail();
+        this.name = member.getName();
+        this.password = member.password;
+
+    }
+
 }

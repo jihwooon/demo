@@ -42,8 +42,8 @@ class UserControllerTest {
 
         given(userService.registerUser(any(UserRegistrationData.class))).will(
                 invocation -> {
-                UserRegistrationData registrationData = invocation.getArgument(0);
-                return User.builder()
+                    UserRegistrationData registrationData = invocation.getArgument(0);
+                    return User.builder()
                             .id(13L)
                             .email(registrationData.getEmail())
                             .name(registrationData.getName())
@@ -55,18 +55,14 @@ class UserControllerTest {
     @Test
     @DisplayName("create 메서드는 isCreated을 응답한다.")
     void registerUserWithValidAttributes() throws Exception {
-        mockMvc.perform(
-                post("/users")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\":\"쥐돌이\", \"email\":\"test@example.com\", \"password\":\"test\"}")
-            )
+                        .content("{\"name\":\"쥐돌이\", \"email\":\"test@example.com\", \"password\":\"test\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(content().string(
-                        containsString("\"id\":13")
-                ))
+                        containsString("\"id\":13")))
                 .andExpect(content().string(
-                        containsString("\"email\":\"test@example.com\"")
-                ));
+                        containsString("\"email\":\"test@example.com\"")));
 
         verify(userService).registerUser(any(UserRegistrationData.class));
     }
@@ -75,11 +71,13 @@ class UserControllerTest {
     @DisplayName("create 메서드는 isBadRequest을 응답한다.")
     void registerUserWithInvalidAttributes() throws Exception {
         mockMvc.perform(
-                    post("/users")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content("{}")
-            )
+                        post("/users")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("{}"))
                 .andExpect(status().isBadRequest());
+
     }
+
+
 
 }

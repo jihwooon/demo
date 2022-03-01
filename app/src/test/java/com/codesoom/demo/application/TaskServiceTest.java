@@ -25,12 +25,10 @@ class TaskServiceTest {
     private static final String CREATE_POSTFIX = "!!";
 
     private TaskService taskService;
-    private TaskRepository taskRepository;
+    private final TaskRepository taskRepository = mock(TaskRepository.class);
 
     @BeforeEach
     void setUp() {
-        taskRepository = mock(TaskRepository.class);
-
         taskService = new TaskService(taskRepository);
 
         setUpfixtures();

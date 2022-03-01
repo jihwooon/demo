@@ -31,7 +31,7 @@ class ProductServiceTest {
 
     // 호출 순 (우선 순위)
     // 지역변수 <- 전역 변수 <- static
-    private ProductRepository productRepository = mock(ProductRepository.class);
+    private final ProductRepository productRepository = mock(ProductRepository.class);
     private ProductService productService;
     private Mapper mapper;
 

@@ -2,8 +2,8 @@ package com.codesoom.demo.controller;
 
 import com.codesoom.demo.application.UserService;
 import com.codesoom.demo.domain.User;
-import com.codesoom.demo.dto.UserResultData;
 import com.codesoom.demo.dto.UserRegistrationData;
+import com.codesoom.demo.dto.UserResultData;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +20,8 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    UserResultData create(@RequestBody @Valid UserRegistrationData userRegistrationData) {
-        User user = userService.registerUser(userRegistrationData);
+    UserResultData create(@RequestBody @Valid UserRegistrationData registrationData) {
+        User user = userService.registerUser(registrationData);
 
         return UserResultData.builder()
                 .id(user.getId())
