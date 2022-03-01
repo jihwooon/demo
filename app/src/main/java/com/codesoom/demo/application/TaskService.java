@@ -1,6 +1,6 @@
 package com.codesoom.demo.application;
 
-import com.codesoom.demo.TaskNotFoundException;
+import com.codesoom.demo.error.TaskNotFoundException;
 import com.codesoom.demo.domain.Task;
 import com.codesoom.demo.domain.TaskRepository;
 import org.springframework.stereotype.Service;

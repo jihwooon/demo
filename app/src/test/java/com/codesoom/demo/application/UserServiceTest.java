@@ -1,6 +1,6 @@
 package com.codesoom.demo.application;
 
-import com.codesoom.demo.UserEmailDuplicationException;
+import com.codesoom.demo.error.UserEmailDuplicationException;
 import com.codesoom.demo.domain.User;
 import com.codesoom.demo.domain.UserRepository;
 import com.codesoom.demo.dto.UserRegistrationData;

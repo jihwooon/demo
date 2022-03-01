@@ -1,7 +1,7 @@
 package com.codesoom.demo.controller;
 
-import com.codesoom.demo.ProductNotFoundException;
-import com.codesoom.demo.TaskNotFoundException;
+import com.codesoom.demo.error.ProductNotFoundException;
+import com.codesoom.demo.error.TaskNotFoundException;
 import com.codesoom.demo.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

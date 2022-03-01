@@ -1,6 +1,6 @@
 package com.codesoom.demo.controller;
 
-import com.codesoom.demo.ProductNotFoundException;
+import com.codesoom.demo.error.ProductNotFoundException;
 import com.codesoom.demo.application.ProductService;
 import com.codesoom.demo.domain.Product;
 import com.codesoom.demo.dto.ProductData;

@@ -1,4 +1,4 @@
-package com.codesoom.demo;
+package com.codesoom.demo.error;
 
 public class UserEmailDuplicationException extends RuntimeException{
     public UserEmailDuplicationException(String email) {
