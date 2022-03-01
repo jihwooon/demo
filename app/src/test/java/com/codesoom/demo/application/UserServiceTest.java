@@ -53,4 +53,17 @@ class UserServiceTest {
         verify(userRepository).save(any(User.class));
 
     }
+
+    @Test
+    void registerUserWithDuplicatedEmail() {
+        UserRegistrationData registrationData = UserRegistrationData.builder()
+                .email("test@example.com")
+                .name("tester")
+                .password("test")
+                .build();
+
+        userService.registerUser(registrationData);
+
+        verify(userRepository).findByEmail("test@example.com");
+    }
 }
