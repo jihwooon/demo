@@ -19,6 +19,7 @@ import static org.mockito.Mockito.verify;
 
 @DisplayName("UserService 클래스")
 class UserServiceTest {
+    private static String EXISTED_EMAIL_ADDRESS = "already@example.com";
     private UserService userService;
     private final UserRepository userRepository = mock(UserRepository.class);
 
@@ -26,6 +27,9 @@ class UserServiceTest {
     void setUp() {
         Mapper mapper = DozerBeanMapperBuilder.buildDefault();
         userService = new UserService(mapper, userRepository);
+
+        given(userRepository.existsByEmail(EXISTED_EMAIL_ADDRESS))
+                .willThrow(new UserEmailDuplicationException(EXISTED_EMAIL_ADDRESS));
 
         given(userRepository.save(any(User.class))).will(invocation -> {
             User source = invocation.getArgument(0);
@@ -59,7 +63,7 @@ class UserServiceTest {
     @Test
     void registerUserWithDuplicatedEmail() {
         UserRegistrationData registrationData = UserRegistrationData.builder()
-                .email("test@example.com")
+                .email(EXISTED_EMAIL_ADDRESS)
                 .name("tester")
                 .password("test")
                 .build();
@@ -67,8 +71,6 @@ class UserServiceTest {
         assertThatThrownBy(() -> userService.registerUser(registrationData))
                 .isInstanceOf(UserEmailDuplicationException.class);
 
-        userService.registerUser(registrationData);
-
-        verify(userRepository).findByEmail("test@example.com");
+        verify(userRepository).existsByEmail(EXISTED_EMAIL_ADDRESS);
     }
 }

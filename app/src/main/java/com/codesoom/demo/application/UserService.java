@@ -1,5 +1,6 @@
 package com.codesoom.demo.application;
 
+import com.codesoom.demo.UserEmailDuplicationException;
 import com.codesoom.demo.domain.User;
 import com.codesoom.demo.domain.UserRepository;
 import com.codesoom.demo.dto.UserRegistrationData;
@@ -21,14 +22,12 @@ public class UserService {
     }
 
     public User registerUser(UserRegistrationData registrationData) {
-        User user = mapper.map(registrationData, User.class);
+        String email = registrationData.getEmail();
+        if (userRepository.existsByEmail(email)) {
+            throw new UserEmailDuplicationException(email);
+        }
 
-    /*No Dozer Mapper*/
-//        User user = User.builder()
-//                .email(userRegistrationData.getEmail())
-//                .name(userRegistrationData.getName())
-//                .password(userRegistrationData.getPassword())
-//                .build();
+        User user = mapper.map(registrationData, User.class);
 
         return userRepository.save(user);
     }
