@@ -3,10 +3,14 @@
 // /products/{id} -> Read, Update, Delete
 package com.codesoom.demo.controller;
 
+import com.codesoom.demo.application.AuthenticationService;
 import com.codesoom.demo.application.ProductService;
 import com.codesoom.demo.domain.Product;
 import com.codesoom.demo.dto.ProductData;
+import com.codesoom.demo.utils.JwtUtil;
+import io.jsonwebtoken.Claims;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,8 +22,11 @@ public class ProductController {
 
     private final ProductService productService;
 
-    public ProductController(ProductService productService) {
+    private AuthenticationService authenticationService;
+
+    public ProductController(ProductService productService, AuthenticationService authenticationService) {
         this.productService = productService;
+        this.authenticationService = authenticationService;
     }
 
     @GetMapping
@@ -34,7 +41,14 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Product create(@RequestBody @Valid ProductData productData) {
+    public Product create(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody @Valid ProductData productData) {
+        String accessToken = authorization.substring("Bearer ".length());
+        Long userId = authenticationService.parseToken(accessToken);
+
+        System.out.println("******* userId : " + userId);
+
         return productService.createProduct(productData);
     }
 
@@ -46,5 +60,10 @@ public class ProductController {
     @DeleteMapping("{id}")
     public void delete(@PathVariable Long id) {
         productService.deleteProduct(id);
+    }
+
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public void handlemissingRequestheaderException() {
     }
 }
