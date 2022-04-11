@@ -40,7 +40,7 @@ class UserControllerTest {
                 .build();
 
         given(userService.createUser(any(User.class))).willReturn(user);
-     }
+    }
 
     @Test
     @DisplayName("create 메서드는 상태코드 201를 응답한다.")

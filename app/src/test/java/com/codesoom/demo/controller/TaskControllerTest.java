@@ -27,9 +27,6 @@ import static org.mockito.Mockito.verify;
 @DisplayName("TaskController 클래스")
 class TaskControllerTest {
 
-    //1. Real objecty
-    //2. Moc object => 타입에 필요함
-    //3. Spy Proxy => 진짜 오브젝트가 필요함
     private TaskService taskService;
     private TaskController controller;
 
@@ -51,7 +48,6 @@ class TaskControllerTest {
                 .willThrow(new TaskNotFoundException(100L));
         given(taskService.deleteTask(100L))
                 .willThrow(new TaskNotFoundException(100L));
-
     }
 
     @Test

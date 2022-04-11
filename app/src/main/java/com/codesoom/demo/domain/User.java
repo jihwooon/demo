@@ -1,7 +1,3 @@
-//TODO
-//1. User Class 만들기
-//2. USer Class Test 만들기
-// id , email, name, password
 package com.codesoom.demo.domain;
 
 import lombok.AllArgsConstructor;

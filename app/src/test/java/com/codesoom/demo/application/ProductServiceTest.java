@@ -1,15 +1,9 @@
-//TODO
-//1. getProducts
-//2. getProduct
-//3. createProduct
-//4. updateProduct
-//5. deleteProduct
 package com.codesoom.demo.application;
 
-import com.codesoom.error.ProductNotFoundException;
 import com.codesoom.demo.domain.Product;
 import com.codesoom.demo.domain.ProductRepository;
 import com.codesoom.demo.dto.ProductData;
+import com.codesoom.error.ProductNotFoundException;
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,8 +23,6 @@ import static org.mockito.Mockito.verify;
 @DisplayName("ProductService 클래스")
 class ProductServiceTest {
 
-    // 호출 순 (우선 순위)
-    // 지역변수 <- 전역 변수 <- static
     private ProductRepository productRepository = mock(ProductRepository.class);
     private ProductService productService;
     private Mapper mapper;
@@ -47,7 +39,6 @@ class ProductServiceTest {
                 .price(5000)
                 .build();
 
-        //ArrayList<T> = new ArrayList(); -> List.of();
         given(productRepository.findAll()).willReturn(List.of(product));
 
         given(productRepository.findById(1L)).willReturn(Optional.of(product));
@@ -67,16 +58,17 @@ class ProductServiceTest {
     }
 
     @Test
-    void getProductsWithExsitedProduct() {
+    void getProductsWithExistedProduct() {
 
         given(productRepository.findAll()).willReturn(List.of());
 
-        assertThat(productService.getProducts()).isEmpty();;
+        assertThat(productService.getProducts()).isEmpty();
+        ;
 
     }
 
     @Test
-    void getProductsWithNotExsitedProduct() {
+    void getProductsWithNotExistedProduct() {
         List<Product> products = productService.getProducts();
 
         assertThat(products).isNotEmpty();
@@ -87,7 +79,7 @@ class ProductServiceTest {
     }
 
     @Test
-    void getProductWithExsitedId() {
+    void getProductWithExistedId() {
 
         Product product = productService.getProduct(1L);
 
@@ -96,7 +88,7 @@ class ProductServiceTest {
     }
 
     @Test
-    void getProductWithNotExsitedId() {
+    void getProductWithNotExistedId() {
 
         assertThatThrownBy(() -> productService.getProduct(1000L))
                 .isInstanceOf(ProductNotFoundException.class);

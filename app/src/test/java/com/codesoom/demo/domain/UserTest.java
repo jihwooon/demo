@@ -1,5 +1,3 @@
-//TODO
-// id , email, name, password
 package com.codesoom.demo.domain;
 
 import org.junit.jupiter.api.Test;

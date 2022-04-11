@@ -20,7 +20,7 @@ class SessionControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @SpyBean // 실제 구현체 사용
+    @SpyBean
     private AuthenticationService authenticationService;
 
     @BeforeEach
