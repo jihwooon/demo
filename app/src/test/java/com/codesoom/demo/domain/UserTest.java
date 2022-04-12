@@ -8,7 +8,6 @@ class UserTest {
 
     @Test
     void creation() {
-
         User user = User.builder()
                 .id(1L)
                 .email("jihwooon@gmail.com")
@@ -21,6 +20,27 @@ class UserTest {
         assertThat(user.getName()).isEqualTo("쥐돌이");
         assertThat(user.getPassword()).isEqualTo("1234");
 
+    }
+
+    @Test
+    void authenticate() {
+        User user = User.builder()
+                .password("test")
+                .build();
+
+        assertThat(user.authenticate("test")).isTrue();
+        assertThat(user.authenticate("xxx")).isFalse();
+    }
+
+    @Test
+    void authenticateWithDeleteUser() {
+        User user = User.builder()
+                .password("test")
+                .deleted(true)
+                .build();
+
+        assertThat(user.authenticate("test")).isFalse();
+        assertThat(user.authenticate("xxx")).isFalse();
     }
 
 }

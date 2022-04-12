@@ -22,4 +22,14 @@ public class User {
     private String name;
     private String password;
 
+    @Builder.Default
+    private boolean deleted = false;
+
+    public void destroy() {
+        deleted = true;
+    }
+
+    public boolean authenticate(String password) {
+        return !deleted && password.equals(this.password);
+    }
 }
