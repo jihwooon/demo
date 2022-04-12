@@ -14,6 +14,6 @@ public class App {
 
     @Bean
     public Mapper dozerMapper() {
-          return DozerBeanMapperBuilder.buildDefault();
+        return DozerBeanMapperBuilder.buildDefault();
     }
 }

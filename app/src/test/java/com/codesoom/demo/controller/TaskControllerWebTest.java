@@ -1,12 +1,8 @@
 package com.codesoom.demo.controller;
 
-import com.codesoom.error.TaskNotFoundException;
 import com.codesoom.demo.application.TaskService;
 import com.codesoom.demo.domain.Task;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.codesoom.demo.error.TaskNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,19 +12,17 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-//spring 의존해서 테스트
 
 @WebMvcTest(TaskController.class)
 @DisplayName("TaskController 클래스")
@@ -101,7 +95,6 @@ class TaskControllerWebTest {
                 )
                 .andExpect(status().isCreated());
 
-        //해당 Mock Object 의 메소드를 호출했는지 검증
         verify(taskService).createTask(any(Task.class));
     }
 

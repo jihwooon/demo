@@ -1,7 +1,3 @@
-//TODO
-//1. User Class 만들기
-//2. USer Class Test 만들기
-// id , email, name, password
 package com.codesoom.demo.domain;
 
 import lombok.AllArgsConstructor;
@@ -26,4 +22,14 @@ public class User {
     private String name;
     private String password;
 
+    @Builder.Default
+    private boolean deleted = false;
+
+    public void destroy() {
+        deleted = true;
+    }
+
+    public boolean authenticate(String password) {
+        return !deleted && password.equals(this.password);
+    }
 }

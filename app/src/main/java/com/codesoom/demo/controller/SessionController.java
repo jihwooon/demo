@@ -8,9 +8,11 @@
 package com.codesoom.demo.controller;
 
 import com.codesoom.demo.application.AuthenticationService;
+import com.codesoom.demo.dto.SessionRequestData;
 import com.codesoom.demo.dto.SessionResponsesData;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +29,13 @@ public class SessionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SessionResponsesData login() {
-        String accessToken = authenticationService.login();
+    public SessionResponsesData login(
+            @RequestBody SessionRequestData sessionRequestData
+    ) {
+        String email = sessionRequestData.getEmail();
+        String password = sessionRequestData.getPassword();
+
+        String accessToken = authenticationService.login(email, password);
 
         return SessionResponsesData.builder()
                 .accessToken(accessToken)

@@ -1,6 +1,6 @@
 package com.codesoom.demo.application;
 
-import com.codesoom.error.ProductNotFoundException;
+import com.codesoom.demo.error.ProductNotFoundException;
 import com.codesoom.demo.domain.Product;
 import com.codesoom.demo.domain.ProductRepository;
 import com.codesoom.demo.dto.ProductData;
@@ -34,11 +34,6 @@ public class ProductService {
     public Product createProduct(ProductData productData) {
         Mapper mapper = DozerBeanMapperBuilder.buildDefault();
         Product product = mapper.map(productData, Product.class);
-//        Product product = Product.builder()
-//                .name(productData.getName())
-//                .maker(productData.getMaker())
-//                .price(productData.getPrice())
-//                .build();
 
         return productRepository.save(product);
     }

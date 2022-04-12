@@ -1,6 +1,6 @@
 package com.codesoom.demo.utils;
 
-import com.codesoom.error.InvalidTokenException;
+import com.codesoom.demo.error.InvalidTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -26,7 +26,7 @@ public class JwtUtil {
     }
 
     public Claims decode(String token) {
-        if(token == null || token.isBlank()) {
+        if (token == null || token.isBlank()) {
             throw new InvalidTokenException(token);
         }
 
@@ -41,5 +41,3 @@ public class JwtUtil {
         }
     }
 }
-
-
