@@ -1,4 +1,4 @@
-package com.codesoom.error;
+package com.codesoom.demo.error;
 
 public class TaskNotFoundException extends RuntimeException{
     public TaskNotFoundException(Long id) {

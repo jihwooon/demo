@@ -1,7 +1,7 @@
 package com.codesoom.demo.application;
 
 import com.codesoom.demo.utils.JwtUtil;
-import com.codesoom.error.InvalidTokenException;
+import com.codesoom.demo.error.InvalidTokenException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +25,7 @@ class AuthenticationServiceTest {
 
     @Test
     void login() {
-        String accessToken = authenticationService.login();
+        String accessToken = authenticationService.login("test@examp.com", "test");
 
         assertThat(accessToken).isEqualTo(VALID_TOKEN);
     }

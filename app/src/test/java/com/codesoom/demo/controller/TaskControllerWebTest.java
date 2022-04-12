@@ -2,7 +2,7 @@ package com.codesoom.demo.controller;
 
 import com.codesoom.demo.application.TaskService;
 import com.codesoom.demo.domain.Task;
-import com.codesoom.error.TaskNotFoundException;
+import com.codesoom.demo.error.TaskNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

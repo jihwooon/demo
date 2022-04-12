@@ -1,4 +1,4 @@
-package com.codesoom.error;
+package com.codesoom.demo.error;
 
 public class ProductNotFoundException extends RuntimeException {
     public ProductNotFoundException(Long id) {

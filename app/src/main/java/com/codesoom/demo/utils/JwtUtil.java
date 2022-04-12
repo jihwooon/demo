@@ -1,6 +1,6 @@
 package com.codesoom.demo.utils;
 
-import com.codesoom.error.InvalidTokenException;
+import com.codesoom.demo.error.InvalidTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

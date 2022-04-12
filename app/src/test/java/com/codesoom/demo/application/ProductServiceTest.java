@@ -3,7 +3,7 @@ package com.codesoom.demo.application;
 import com.codesoom.demo.domain.Product;
 import com.codesoom.demo.domain.ProductRepository;
 import com.codesoom.demo.dto.ProductData;
-import com.codesoom.error.ProductNotFoundException;
+import com.codesoom.demo.error.ProductNotFoundException;
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
 import org.junit.jupiter.api.BeforeEach;
