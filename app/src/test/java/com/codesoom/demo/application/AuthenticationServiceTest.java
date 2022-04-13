@@ -80,7 +80,7 @@ class AuthenticationServiceTest {
 
     @Test
     void loginWithWrongEmail() {
-        assertThatThrownBy(()-> authenticationService.login("badguy@example.com", "test"))
+        assertThatThrownBy(() -> authenticationService.login("badguy@example.com", "test"))
                 .isInstanceOf(LoginFailException.class);
 
         verify(userRepository).findByEmail("badguy@example.com");
@@ -88,7 +88,7 @@ class AuthenticationServiceTest {
 
     @Test
     void loginWithWrongPassword() {
-        assertThatThrownBy(()-> authenticationService.login("tester@example.com", "xxxx"))
+        assertThatThrownBy(() -> authenticationService.login("tester@example.com", "xxxx"))
                 .isInstanceOf(LoginFailException.class);
 
     }

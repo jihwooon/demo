@@ -1,5 +1,6 @@
 package com.codesoom.demo.controller;
 
+import com.codesoom.demo.application.AuthenticationService;
 import com.codesoom.demo.application.TaskService;
 import com.codesoom.demo.domain.Task;
 import com.codesoom.demo.error.TaskNotFoundException;
@@ -33,6 +34,9 @@ class TaskControllerWebTest {
 
     @Autowired
     private TaskController taskController;
+
+    @MockBean
+    private AuthenticationService authenticationService;
 
     @MockBean
     private TaskService taskService;
