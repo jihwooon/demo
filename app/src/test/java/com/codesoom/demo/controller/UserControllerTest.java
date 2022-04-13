@@ -1,5 +1,6 @@
 package com.codesoom.demo.controller;
 
+import com.codesoom.demo.application.AuthenticationService;
 import com.codesoom.demo.application.UserService;
 import com.codesoom.demo.domain.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +29,8 @@ class UserControllerTest {
     private UserController userController;
 
     @MockBean
+    private AuthenticationService authenticationService;
+    @MockBean
     private UserService userService;
 
     @BeforeEach
@@ -46,7 +49,8 @@ class UserControllerTest {
     @DisplayName("create 메서드는 상태코드 201를 응답한다.")
     void create() throws Exception {
         mockMvc.perform(post("/user")
-                        .accept(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON_UTF8)
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\":\"jihwooon@gmail.com\", \"name\":\"쥐돌이\", \"password\":\"1234\"}"))
                 .andExpect(status().isCreated());
 

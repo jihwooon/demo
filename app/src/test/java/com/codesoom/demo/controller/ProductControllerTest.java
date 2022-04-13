@@ -87,11 +87,9 @@ class ProductControllerTest {
 
         given(authenticationService.parseToken(INVALID_TOKEN)).willThrow(new InvalidTokenException(INVALID_TOKEN));
 
-
     }
 
     @Test
-    @DisplayName("list 메서드는 status 200을 리턴합니다.")
     void list() throws Exception {
         mockMvc.perform(get("/products")
                         .accept(MediaType.APPLICATION_JSON_UTF8))
@@ -126,43 +124,18 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("craete 메서드는 상태 코드 204을 응답한다.")
-    void createWithExsitedProduct() throws Exception {
-        mockMvc.perform(post("/products")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(" {\"name\":\"쥐돌이\", \"maker\":\"냥이월드\",\"price\":5000}")
-                        .header("Authorization", "Bearer " + VALID_TOKEN))
-                .andExpect(status().isCreated());
-
-        verify(productService).createProduct(any(ProductData.class));
-    }
-
-    @Test
-    @DisplayName("craete 메서드는 AccessToken을 생성한다.")
     void createWithAccessToken() throws Exception {
-        mockMvc.perform(post("/products")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(" {\"name\":\"쥐돌이\", \"maker\":\"냥이월드\",\"price\":5000}")
-                        .header("Authorization", "Bearer " + VALID_TOKEN))
-                .andExpect(status().isCreated());
-
-        verify(productService).createProduct(any(ProductData.class));
-    }
-
-    @Test
-    @DisplayName("craete 메서드는 AccessToken을 생성한다.")
-    void createWithoutAccessToken() throws Exception {
         mockMvc.perform(post("/products")
                         .accept(MediaType.APPLICATION_JSON_UTF8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" {\"name\":\"쥐돌이\", \"maker\":\"냥이월드\",\"price\":5000}")
+                        .header("Authorization", "Bearer " + VALID_TOKEN))
+                .andExpect(status().isCreated());
 
-                )
-                .andExpect(status().isUnauthorized());
+        verify(productService).createProduct(any(ProductData.class));
     }
 
     @Test
-    @DisplayName("craete 메서드는 AccessToken을 생성한다.")
     void createWithWrongAccessToken() throws Exception {
         mockMvc.perform(post("/products")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -172,48 +145,76 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("craete 메서드는 상태 코드 400을 응답한다.")
-    void createWithInvalidAttributes() throws Exception {
+    void createWithoutAccessToken() throws Exception {
         mockMvc.perform(post("/products")
+                        .accept(MediaType.APPLICATION_JSON_UTF8)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(" {\"name\":\"\", \"maker\":\"\",\"price\":0}")
-                        .header("Authorization", "Bearer " + VALID_TOKEN))
-                .andExpect(status().isBadRequest());
+                        .content(" {\"name\":\"쥐돌이\", \"maker\":\"냥이월드\",\"price\":5000}"))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
-    @DisplayName("update 메서드는 상태 코드 200을 응답한다.")
-    void updateWithExsitedProduct() throws Exception {
-        mockMvc.perform(patch("/products/1")
+    void createWithInvalidAttributes() throws Exception {
+        mockMvc.perform(post("/products")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(" {\"name\":\"쥐순이\", \"maker\":\"순이월드\",\"price\":1000}"))
-                .andExpect(status().isOk());
+                        .content(" {\"name\":\"\", \"maker\":\"\",\"price\":0}"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void updateWithValidProduct() throws Exception {
+        mockMvc.perform(patch("/products/1")
+                        .accept(MediaType.APPLICATION_JSON_UTF8)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(" {\"name\":\"쥐순이\", \"maker\":\"순이월드\",\"price\":1000}")
+                        .header("Authorization", "Bearer " + VALID_TOKEN))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("쥐순이")));
 
         verify(productService).updateProduct(eq(1L), any(ProductData.class));
     }
 
     @Test
-    @DisplayName("update 메서드는 상태 코드 404을 반환합니다.")
-    void updateWithNotExsitedProduct() throws Exception {
-        mockMvc.perform(patch("/products/1000")
+    void updateWithInValidProduct() throws Exception {
+        mockMvc.perform(patch("/products/1")
+                        .accept(MediaType.APPLICATION_JSON_UTF8)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(" {\"name\":\"\", \"maker\":\"\",\"price\":1000}"))
-                .andExpect(status().isBadRequest());
+                        .content(" {\"name\":\"쥐순이\", \"maker\":\"순이월드\",\"price\":1000}")
+                        .header("Authorization", "Bearer " + INVALID_TOKEN))
+                .andExpect(status().isUnauthorized());
+
     }
 
     @Test
-    @DisplayName("delete 메서드는 상태 코드 200을 반환합니다.")
-    void detroyWithVaildProduct() throws Exception {
-        mockMvc.perform(delete("/products/1"))
+    void updateWithNotAccessToken() throws Exception {
+        mockMvc.perform(patch("/products/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(" {\"name\":\"쥐순이\", \"maker\":\"순이월드\",\"price\":1000}"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void updateWithNotExsitedProduct() throws Exception {
+        mockMvc.perform(patch("/products/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(" {\"name\":\"쥐순이\", \"maker\":\"순이월드\",\"price\":1000}")
+                        .header("Authorization", "Bearer " + INVALID_TOKEN))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void destroyWithValidProduct() throws Exception {
+        mockMvc.perform(delete("/products/1")
+                .header("Authorization", "Bearer " + VALID_TOKEN))
                 .andExpect(status().isOk());
 
         verify(productService).deleteProduct(1L);
     }
 
     @Test
-    @DisplayName("delete 메서드는 상태 코드 404을 반환합니다.")
-    void detroyWithInvaildProduct() throws Exception {
-        mockMvc.perform(delete("/products/1000"))
+    void destroyWithInvalidProduct() throws Exception {
+        mockMvc.perform(delete("/products/1000")
+                .header("Authorization", "Bearer " + INVALID_TOKEN))
                 .andExpect(status().isNotFound());
 
         verify(productService).deleteProduct(1000L);

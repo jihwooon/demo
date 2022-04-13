@@ -58,7 +58,14 @@ public class ProductController {
     }
 
     @PatchMapping("{id}")
-    public Product update(@PathVariable Long id, @RequestBody @Valid ProductData productData) {
+    public Product update(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable Long id,
+            @RequestBody @Valid ProductData productData) {
+
+        String accessToken = authorization.substring("Bearer ".length());
+        Long userId = authenticationService.parseToken(accessToken);
+
         return productService.updateProduct(id, productData);
     }
 
@@ -69,6 +76,7 @@ public class ProductController {
 
     @ExceptionHandler(MissingRequestHeaderException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public void handlemissingRequestheaderException() {
+    public void handleMissingRequestHeaderException() {
+
     }
 }
