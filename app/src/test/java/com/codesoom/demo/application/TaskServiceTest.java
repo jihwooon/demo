@@ -33,11 +33,11 @@ class TaskServiceTest {
 
         taskService = new TaskService(taskRepository);
 
-        setUpfixtures();
+        setUpFixtures();
         setUpSaveTask();
     }
 
-    void setUpfixtures() {
+    void setUpFixtures() {
         List<Task> tasks = new ArrayList<>();
 
         Task task = new Task();
