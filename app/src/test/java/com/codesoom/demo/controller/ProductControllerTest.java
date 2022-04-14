@@ -175,7 +175,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void updateWithInValidProduct() throws Exception {
+    void updateWithOutAccessToken() throws Exception {
         mockMvc.perform(patch("/products/1")
                         .accept(MediaType.APPLICATION_JSON_UTF8)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -214,7 +214,7 @@ class ProductControllerTest {
     @Test
     void destroyWithInvalidProduct() throws Exception {
         mockMvc.perform(delete("/products/1000")
-                .header("Authorization", "Bearer " + INVALID_TOKEN))
+                .header("Authorization", "Bearer " + VALID_TOKEN))
                 .andExpect(status().isNotFound());
 
         verify(productService).deleteProduct(1000L);
