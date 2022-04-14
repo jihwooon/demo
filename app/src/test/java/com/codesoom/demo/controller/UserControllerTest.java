@@ -67,7 +67,7 @@ class UserControllerTest {
 
     @Test
     @DisplayName("delete 메서드 상태코드 200을 응답한다.")
-    void detroy() throws Exception {
+    void destroy() throws Exception {
         mockMvc.perform(delete("/user/1"))
                 .andExpect(status().isOk());
     }
